@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Send } from 'lucide-react'
+import { Send, CheckCircle, XCircle } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 export function LetsConnect() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export function LetsConnect() {
     message: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -23,10 +25,76 @@ export function LetsConnect() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // TODO: Integrate with email service (EmailJS, SendGrid, etc.)
-    console.log('Form submitted:', formData)
-    setIsSubmitting(false)
-    setFormData({ name: '', email: '', subject: '', message: '' })
+    setSubmitStatus('idle')
+
+    try {
+      // EmailJS configuration
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || ''
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || ''
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+
+      console.log('EmailJS Config:', {
+        serviceId: serviceId ? 'configured' : 'missing',
+        templateId: templateId ? 'configured' : 'missing',
+        publicKey: publicKey ? 'configured' : 'missing'
+      })
+
+      // Check if EmailJS is configured
+      if (!serviceId || !templateId || !publicKey) {
+        console.warn('EmailJS not configured. Using mailto fallback.')
+        // Fallback: open email client
+        const mailtoLink = `mailto:robertkawan2506@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`)}`
+        window.location.href = mailtoLink
+        setSubmitStatus('success')
+        setIsSubmitting(false)
+        setTimeout(() => setSubmitStatus('idle'), 5000)
+        setFormData({ name: '', email: '', subject: '', message: '' })
+        return
+      }
+
+      // Initialize EmailJS with public key
+      emailjs.init(publicKey)
+
+      console.log('Sending email with data:', {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+      })
+
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          to_name: 'Robert',
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }
+      )
+
+      console.log('Email sent successfully:', response)
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', subject: '', message: '' })
+
+      // Reset success message after 5 seconds
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+    } catch (error: any) {
+      console.error('Error sending email:', error)
+      console.error('Error details:', {
+        message: error?.message,
+        text: error?.text,
+        status: error?.status,
+      })
+      setSubmitStatus('error')
+
+      // Reset error message after 5 seconds
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -41,8 +109,8 @@ export function LetsConnect() {
 
         <div data-scroll-reveal data-scroll-delay={150} className="bg-card border border-border rounded-xl p-8 md:p-12">
           <div className="flex items-center gap-3 mb-8">
-            <Send className="w-6 h-6 text-accent" />
-            <h3 className="text-2xl font-bold">Envie uma Mensagem</h3>
+            <Send className="w-6 h-6 text-accent btn-press" />
+            <h3 className="text-2xl font-bold btn-press">Envie uma Mensagem</h3>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -120,6 +188,21 @@ export function LetsConnect() {
               <Send size={20} />
               {isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
             </button>
+
+            {/* Success/Error Messages */}
+            {submitStatus === 'success' && (
+              <div className="flex items-center gap-2 p-4 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <CheckCircle size={20} />
+                <p className="text-sm font-medium">Mensagem enviada com sucesso! Entrarei em contato em breve.</p>
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="flex items-center gap-2 p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <XCircle size={20} />
+                <p className="text-sm font-medium">Erro ao enviar mensagem. Por favor, tente novamente ou entre em contato diretamente.</p>
+              </div>
+            )}
           </form>
         </div>
       </div>
