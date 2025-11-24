@@ -1,8 +1,18 @@
 'use client'
 
 import { Heart, Zap, Users } from 'lucide-react'
+import { useState } from 'react'
 
 export function About() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    })
+  }
   const highlights = [
     {
       icon: Heart,
@@ -95,10 +105,21 @@ export function About() {
               key={stat.label}
               data-scroll-reveal
               data-scroll-delay={(index + 1) * 120}
-              className="p-8 rounded-lg border border-border bg-card/50 hover:bg-card transition text-center"
+              onMouseMove={handleMouseMove}
+              className="group p-8 rounded-lg border border-border bg-card hover:bg-card transition-all duration-300 text-center cursor-pointer hover:shadow-xl hover:shadow-accent/20 hover:border-accent/50 hover:-translate-y-1 relative overflow-hidden"
             >
-              <div className="text-3xl font-bold text-accent mb-2">{stat.value}</div>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
+              {/* Mouse spotlight effect */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(var(--accent-rgb, 139, 92, 246), 0.15), transparent 40%)`
+                }}
+              />
+
+              <div className="relative z-10">
+                <div className="text-3xl font-bold text-accent mb-2 transition-transform duration-300 group-hover:scale-110">{stat.value}</div>
+                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">{stat.label}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -110,10 +131,24 @@ export function About() {
               key={item.title}
               data-scroll-reveal
               data-scroll-delay={(index + 1) * 150}
-              className="p-6 rounded-lg border border-border bg-card/50 hover:bg-card hover:border-accent/50 transition"
+              onMouseMove={handleMouseMove}
+              className="group p-6 rounded-lg border border-border bg-card hover:bg-card hover:border-accent/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-accent/10 relative overflow-hidden"
             >
-              <h3 className="font-semibold mb-3 text-foreground">{item.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+              {/* Mouse spotlight effect */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  background: `radial-gradient(500px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(var(--accent-rgb, 139, 92, 246), 0.12), transparent 40%)`
+                }}
+              />
+
+              {/* Gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+              <div className="relative z-10">
+                <h3 className="font-semibold mb-3 text-foreground group-hover:text-accent transition-colors duration-300">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">{item.description}</p>
+              </div>
             </div>
           ))}
         </div>
