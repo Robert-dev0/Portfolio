@@ -73,13 +73,23 @@ export function Projects() {
               data-scroll-delay={(index + 1) * 120}
               className="rounded-lg border border-border bg-card overflow-hidden hover:border-accent/50 transition group"
             >
-              <div className="aspect-video bg-muted overflow-hidden">
-                <img
-                  src={project.image || "/placeholder.svg"}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition"
-                />
-              </div>
+              {project.id === 1 ? (
+                <div className="h-96 bg-neutral-900 relative overflow-hidden flex items-center justify-center">
+                  <img
+                    src="/Home.jpg"
+                    alt={project.title}
+                    className="h-full w-auto object-contain group-hover:scale-105 transition"
+                  />
+                </div>
+              ) : (
+                <div className="aspect-video bg-muted overflow-hidden">
+                  <img
+                    src={project.image || "/placeholder.svg"}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition"
+                  />
+                </div>
+              )}
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
                   <div>
