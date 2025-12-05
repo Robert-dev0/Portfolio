@@ -5,8 +5,16 @@ import './globals.css'
 import { ScrollRevealProvider } from '@/components/scroll-reveal-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geist = Geist({
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-geist'
+});
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-geist-mono'
+});
 
 export const metadata: Metadata = {
   title: 'Portfolio',
@@ -38,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans antialiased`}>
+      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased subpixel-antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
