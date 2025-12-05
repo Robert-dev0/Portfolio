@@ -1,12 +1,18 @@
 'use client'
 
-import { Heart, Zap, Users } from 'lucide-react'
-import { useState } from 'react'
+import { Heart, Zap, Users, Code2, Palette, Gauge, UsersRound } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 export function About() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMounted) return
     const rect = e.currentTarget.getBoundingClientRect()
     setMousePosition({
       x: e.clientX - rect.left,
@@ -30,18 +36,22 @@ export function About() {
 
   const stats = [
     {
-      value: '1.5+',
+      icon: '🎯',
+      value: '2.5+',
       label: 'Anos de Experiência'
     },
     {
-      value: '5+',
+      icon: '🚀',
+      value: '3+',
       label: 'Projetos Concluídos'
     },
     {
-      value: '10+',
+      icon: '💻',
+      value: '15+',
       label: 'Tecnologias'
     },
     {
+      icon: '📚',
       value: '∞',
       label: 'Aprendizado constante'
     }
@@ -49,18 +59,22 @@ export function About() {
 
   const expertise = [
     {
+      icon: Code2,
       title: 'Desenvolvimento',
       description: 'Full Stack com foco em aplicações rápidas, seguras e fáceis de manter'
     },
     {
+      icon: Palette,
       title: 'UI/UX Design',
       description: 'Interfaces simples, diretas e pensadas para o usuário real'
     },
     {
+      icon: Gauge,
       title: 'Performance',
       description: 'Código enxuto, carregamento rápido e bom uso de recursos'
     },
     {
+      icon: UsersRound,
       title: 'Colaboração',
       description: 'Comunicação clara, feedback constante e foco no objetivo do time'
     }
@@ -126,31 +140,37 @@ export function About() {
 
         {/* Expertise Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {expertise.map((item, index) => (
-            <div
-              key={item.title}
-              data-scroll-reveal
-              data-scroll-delay={(index + 1) * 150}
-              onMouseMove={handleMouseMove}
-              className="group p-6 rounded-lg border border-border bg-card hover:bg-card hover:border-accent/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-accent/10 relative overflow-hidden"
-            >
-              {/* Mouse spotlight effect */}
+          {expertise.map((item, index) => {
+            const Icon = item.icon
+            return (
               <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                style={{
-                  background: `radial-gradient(500px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(var(--accent-rgb, 139, 92, 246), 0.12), transparent 40%)`
-                }}
-              />
+                key={item.title}
+                data-scroll-reveal
+                data-scroll-delay={(index + 1) * 150}
+                onMouseMove={handleMouseMove}
+                className="group p-6 rounded-lg border border-border bg-card hover:bg-card hover:border-accent/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-accent/10 relative overflow-hidden"
+              >
+                {/* Mouse spotlight effect */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{
+                    background: `radial-gradient(500px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(var(--accent-rgb, 139, 92, 246), 0.12), transparent 40%)`
+                  }}
+                />
 
-              {/* Gradient overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-              <div className="relative z-10">
-                <h3 className="font-semibold mb-3 text-foreground group-hover:text-accent transition-colors duration-300">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">{item.description}</p>
+                <div className="relative z-10">
+                  <div className="mb-4 inline-flex p-3 rounded-lg bg-accent/10 text-accent group-hover:bg-accent/20 transition-colors duration-300">
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="font-semibold mb-3 text-foreground group-hover:text-accent transition-colors duration-300">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
