@@ -112,32 +112,6 @@ export function About() {
           })}
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
-          {stats.map((stat, index) => (
-            <div
-              key={stat.label}
-              data-scroll-reveal
-              data-scroll-delay={(index + 1) * 120}
-              onMouseMove={handleMouseMove}
-              className="group p-8 rounded-lg border border-border bg-card hover:bg-card transition-all duration-300 text-center cursor-pointer hover:shadow-xl hover:shadow-accent/20 hover:border-accent/50 hover:-translate-y-1 relative overflow-hidden"
-            >
-              {/* Mouse spotlight effect */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                style={{
-                  background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(var(--accent-rgb, 139, 92, 246), 0.15), transparent 40%)`
-                }}
-              />
-
-              <div className="relative z-10">
-                <div className="text-3xl font-bold text-accent mb-2 transition-transform duration-300 group-hover:scale-110">{stat.value}</div>
-                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">{stat.label}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
         {/* Expertise Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {expertise.map((item, index) => {
