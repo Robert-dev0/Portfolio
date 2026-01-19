@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Download } from 'lucide-react'
+import { ArrowRight, Download, Linkedin, Github } from 'lucide-react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
@@ -38,7 +38,7 @@ export function Hero() {
           Sou uma pessoa motivada e dedicada, em busca do meu primeiro estágio na área. Possuo 1 ano e meio de experiência prática em projetos pessoais, freelas e estudos contínuos, desenvolvendo habilidades técnicas, raciocínio lógico e foco na criação de interfaces limpas e responsivas. Tenho facilidade para aprender, sou proativo e comprometido em entregar resultados de qualidade, sempre buscando evoluir e aprimorar meus conhecimentos.
         </p>
 
-        <div data-scroll-reveal data-scroll-delay={250} className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div data-scroll-reveal data-scroll-delay={250} className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
           <Link
             href="#projects"
             className="px-8 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition flex items-center justify-center gap-2 btn-press"
@@ -56,6 +56,27 @@ export function Hero() {
             open={isResumeModalOpen}
             onOpenChange={setIsResumeModalOpen}
           />
+        </div>
+
+        <div data-scroll-reveal data-scroll-delay={275} className="flex gap-4 justify-center">
+          <a
+            href="https://www.linkedin.com/in/robert-kawan-6b8b8b1b0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 rounded-full border-2 border-accent/30 text-accent hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-110"
+            aria-label="LinkedIn"
+          >
+            <Linkedin size={24} />
+          </a>
+          <a
+            href="https://github.com/Robert-dev0"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 rounded-full border-2 border-accent/30 text-accent hover:bg-accent/10 hover:border-accent transition-all duration-300 hover:scale-110"
+            aria-label="GitHub"
+          >
+            <Github size={24} />
+          </a>
         </div>
 
         <div className="grid grid-cols-3 gap-6 mt-20 pt-12 border-t border-border">

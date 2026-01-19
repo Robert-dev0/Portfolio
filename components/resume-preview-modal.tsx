@@ -23,7 +23,7 @@ interface ResumePreviewModalProps {
 export function ResumePreviewModal({
   open,
   onOpenChange,
-  resumeUrl = '/resume.pdf',
+  resumeUrl = '/CurriculoFullStack.pdf',
 }: ResumePreviewModalProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)

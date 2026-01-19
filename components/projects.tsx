@@ -1,17 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { ExternalLink, Copy } from 'lucide-react'
+import { ExternalLink, Copy, Github } from 'lucide-react'
 
 const allProjects = [
   {
     id: 1,
     title: 'Cardápio Digital',
-    category: 'Frontend',
+    category: 'FullStack',
     year: '2024-2025',
     description: 'Principal responsável pelo front-end na entrega de um cardápio digital em 3 meses, garantindo uma UI/UX fluida e perfeitamente integrada ao...',
     tech: ['Next.js', 'TypeScript', 'React', 'Tailwind CSS'],
-    image: ''
+    image: '',
+    siteUrl: 'https://seu-site-cardapio.com',
+    repoUrl: 'https://github.com/Robert-dev0/Barbershop'
   },
   {
     id: 2,
@@ -20,7 +22,9 @@ const allProjects = [
     year: '2025',
     description: 'Desenvolvido de forma independente um sistema de cardápio digital completo (front e back-end) em 3 meses, incluindo um painel administrativo...',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Tailwind CSS'],
-    image: ''
+    image: '',
+    siteUrl: '',
+    repoUrl: ''
   },
   {
     id: 3,
@@ -29,7 +33,9 @@ const allProjects = [
     year: '2024',
     description: 'Created comprehensive design system with reusable components and documentation',
     tech: ['React', 'TypeScript', 'Storybook'],
-    image: ''
+    image: '',
+    siteUrl: '',
+    repoUrl: ''
   }
 ]
 
@@ -124,9 +130,24 @@ export function Projects() {
                       </span>
                     ))}
                   </div>
-                  <button className="w-full py-2 border border-accent text-accent rounded-lg hover:bg-accent/5 transition flex items-center justify-center gap-2 text-sm font-semibold">
-                    Visit Site <ExternalLink size={16} />
-                  </button>
+                  <div className="flex gap-3">
+                    <a
+                      href={project.siteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 border border-accent text-accent rounded-lg hover:bg-accent/5 transition flex items-center justify-center gap-2 text-sm font-semibold"
+                    >
+                      Visit Site <ExternalLink size={16} />
+                    </a>
+                    <a
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition flex items-center justify-center gap-2 text-sm font-semibold"
+                    >
+                      Repository <Github size={16} />
+                    </a>
+                  </div>
                 </div>
               </div>
             ))

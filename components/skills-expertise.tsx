@@ -20,20 +20,15 @@ const skillsData = [
     category: 'Database',
     icon: Database,
     color: 'text-purple-500',
-    skills: ['PostgreSQL', 'SQL', 'Drizzle', 'Prisma']
+    skills: ['PostgreSQL', 'Drizzle', 'Prisma']
   },
   {
     category: 'DevOps',
     icon: GitBranch,
     color: 'text-cyan-500',
-    skills: ['Git', 'Docker', 'Vercel', 'GitHub Actions', 'CI/CD']
+    skills: ['Git', 'Docker', 'Vercel', 'CI/CD']
   },
-  {
-    category: 'AI/ML',
-    icon: Zap,
-    color: 'text-yellow-500',
-    skills: ['AI Integration', 'LLMs', 'Vector Databases', 'Automation']
-  },
+
   {
     category: 'Security',
     icon: Shield,

@@ -14,7 +14,7 @@ html {
 
 :root {
     /* Light mode colors - soft, comfortable palette */
-    --background: oklch(0.92 0.010 80);
+    --background: hsl(0, 0%, 87%);
     --foreground: oklch(0.24 0 0);
     --card: oklch(0.93 0.008 80);
     --card-foreground: oklch(0.24 0 0);
